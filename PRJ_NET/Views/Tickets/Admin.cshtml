@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PRJ_NET.Models.AddTicketViewModel
+
+
+<div class="container py-5">
+
+    <div class="row">
+        <div class="col-lg-7 mx-auto">
+            <div class="card rounded-10 border-0 shadow" style="min-height: 425px;">
+                <div class="card-body pr-2 pl-2">
+                    <h1 class="mb-4 ml-5">Add Transport</h1>
+                    <form id="reservationForm" method="post">
+                        <div class="form-group position-relative mt-4">
+                            <label for="carName" style="position: absolute; top: -10px; left: 10px; background-color: white; padding: 0 5px;">Bus Name</label>
+                            <input type="text" class="form-control" id="carName" asp-for="TransportName" required>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="ticketTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">City</th>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">
+                                            <a class="btn btn-orange rounded-2 p-1 btn-block" id="insertRow" href="#" style="width: 35px; height: 35px;">
+                                                <img src="./images/add.png" style="width: 22px; display: block; margin: auto;">
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td style="position: relative">
+                                            <input class="form-control rounded-0 city-input" type="text" asp-for="DepartureCity" placeholder="Select City" required>
+                                            <div class="dropdown-menu city-suggestions" style="position: absolute; margin-top: -8px; z-index: 100;"></div>
+                                        </td>
+                                        <td><input class="form-control rounded-0 time-input" type="text" asp-for="DepartureTime" placeholder="00:00" required></td>
+                                        <td><input class="form-control rounded-0" type="number" min="0" asp-for="TicketPrice" placeholder="Price" required></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="position: relative">
+                                        <th scope="row">2</th>
+                                        <td>
+                                            <input class="form-control rounded-0 city-input" type="text" asp-for="ArrivalCity" placeholder="Select City" required>
+                                            <div class="dropdown-menu city-suggestions" style="position: absolute; margin-top: -8px; z-index: 100;"></div>
+                                        </td>
+                                        <td><input class="form-control rounded-0 time-input" type="text" asp-for="ArrivalTime" placeholder="00:00" required></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="submit" class="btn btn-primary text-white btn-block"><strong>Valider</strong></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

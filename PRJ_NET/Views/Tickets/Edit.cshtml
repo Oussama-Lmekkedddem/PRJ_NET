@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PRJ_NET.Models.Entities.Ticket
+
+
+<!-- Modal -->
+<div class="" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <!--aria-hidden="true"-->
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Ticket</h5>
+                <a href="@Url.Action("Admin", "Tickets")" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            @if (Model is null)
+            {
+                <p>No student was found with this Id </p>
+            }
+            @if (Model is not null){
+            <form id="updateForm" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="ticketId" asp-for="TicketId" readonly>
+                    <!-- Your form fields here -->
+                    <div class="form-group">
+                        <label for="transportName">Transport Name</label>
+                        <input type="text" class="form-control" id="transportName" asp-for="TransportName">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="departureCity">Departure City</label>
+                            <input type="text" class="form-control" id="departureCity" asp-for="DepartureCity">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="arrivalCity">Arrival City</label>
+                            <input type="text" class="form-control" id="arrivalCity" asp-for="ArrivalCity">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="departureTime">Departure Time</label>
+                            <input type="text" class="form-control time-input" id="departureTime" asp-for="DepartureTime" placeholder="HH:MM">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="arrivalTime">Arrival Time</label>
+                            <input type="text" class="form-control time-input" id="arrivalTime" asp-for="ArrivalTime" placeholder="HH:MM">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketPrice">Ticket Price</label>
+                        <input type="text" class="form-control" id="ticketPrice" asp-for="TicketPrice">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-orange text-white">Update</button>
+                    <button type="submit" asp-action="Delete" asp-controller="Tickets" class="btn btn-secondary" data-dismiss="modal">Delete</button>
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+</div>
+
