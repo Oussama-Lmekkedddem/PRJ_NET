@@ -40,7 +40,7 @@ namespace PRJ_NET.Controllers
             await dbContext.Tickets.AddAsync(ticket);
             await dbContext.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("List");
         }
 
         [HttpGet]

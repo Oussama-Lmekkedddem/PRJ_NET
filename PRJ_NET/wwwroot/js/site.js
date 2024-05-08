@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Vérifier si les identifiants sont corrects
         if (email === 'admin@gmail.com' && password === 'admin') {
             // Rediriger vers la page admin.html
-            window.location.href = 'admin';
+            window.location.href = 'Tickets/Admin';
         } else {
             // Afficher un message d'erreur ou effectuer d'autres actions si les identifiants ne sont pas corrects
             alert('Identifiants incorrects. Veuillez réessayer.');

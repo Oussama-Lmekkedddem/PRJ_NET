@@ -1,0 +1,67 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="container-pay mt-4">
+    <div id="logo">
+        <h1 class="logo" style="width: 60px;"></h1>
+        <div class=""></div>
+    </div>
+    <div class="leftbox">
+        <nav>
+            <a class="test-white"><i class="fa fa-tasks"></i></a>
+            <a class="test-white"><i class="fa fa fa-user"></i></a>
+            <a class="active test-white"><i class="fa fa-credit-card"></i></a>
+            <a class="test-white"><i class="fa fa-check-circle"></i></a>
+            <a class="test-white"><i class="fa fa-download"></i></a>
+        </nav>
+    </div>
+    <div class="rightbox">
+        <div class="payinfo">
+            <a href="persinfo" class="BACK">
+                <img src="../images/arrow-left.png">
+            </a>
+            <h1>Payment Info</h1>
+            <div class="form-card mr-5">
+                <form action="verification" method="post">
+                    <div class="row pl-3 pr-4 mb-4">
+                        <div class="col-sm-5">
+                            <div class="border border-primary" data-value="credit"><img src="https://i.imgur.com/28akQFX.jpg" width="160px" height="45px"></div>
+                        </div>
+                        <div class=" col-sm-5">
+                            <div class="border border-primary" data-value="paypal"><img src="https://i.imgur.com/5QFsx7K.jpg" width="160px" height="45px"></div>
+                        </div>
+                    </div>
+                    <div class="row pl-3 pr-4 ">
+                        <div class="form-group col-sm-12 ml-1">
+                            <label class="pay-label">Name on Card</label>
+                            <input type="text" name="holdername" placeholder="Full Name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row pl-3 pr-4">
+                        <div class="form-group col-sm-12 ml-1">
+                            <label class="pay-label">Card Number</label>
+                            <input type="text" name="cardno" id="cr_no" placeholder="0000-0000-0000-0000" minlength="19" maxlength="19" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row pl-3 pr-4">
+                        <div class="form-group col-5 ml-1 mr-4">
+                            <label class="pay-label">CVV</label>
+                            <input type="password" name="cvcpwd" placeholder="&#9679;&#9679;&#9679;" minlength="3" maxlength="3" class="placeicon form-control" required>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="pay-label">Expiration Date</label>
+                            <input type="text" name="exp" id="exp" placeholder="MM/YY" minlength="5" maxlength="5" class="form-control ml-2" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="CTA">
+                        <img src="../images/empty-arrow-down.png">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

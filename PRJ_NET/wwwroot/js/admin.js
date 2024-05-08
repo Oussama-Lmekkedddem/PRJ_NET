@@ -28,12 +28,12 @@ $(function () {
         // Table columns
         cols += '<th scope="row">' + counter + '</th>';
         cols += '<td>' +
-            '<input class="form-control rounded-0 city-input" type="text" name="city[' + counter + ']" placeholder="City" required="">' +
+            '<input class="form-control rounded-0 city-input" type="text" name="city[' + counter + ']" placeholder="Select City" required="">' +
             '<div class="dropdown-menu city-suggestions" style="position: absolute; margin-top: -8px; z-index: 100;"></div>' +
             '</td>';
-        cols += '<td><input class="form-control rounded-0" type="time" name="time[' + counter + ']" placeholder="Time" required></td>';
+        cols += '<td><input class="form-control rounded-0 time-input" type="text" name="time[' + counter + ']" placeholder="HH:MM" required></td>';
         cols += '<td></td>';
-        cols += '<td><button class="btn btn-danger rounded-2 p-1 deleteRow" style="width: 35px; height: 35px;"><img src="./images/delete.png" style="width: 22px; display: block; margin: auto;"></button></td>';
+        cols += '<td><button class="btn btn-danger rounded-2 p-1 deleteRow" style="width: 35px; height: 35px;"><img src="../images/delete.png" style="width: 22px; display: block; margin: auto;"></button></td>';
 
         // Insert the columns inside a row
         newRow.append(cols);
