@@ -12,5 +12,7 @@ namespace PRJ_NET.Data
         }
 
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }
