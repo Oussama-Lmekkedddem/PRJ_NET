@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Sockets;
-using PRJ_NET.Data;
-using PRJ_NET.Models.Entities;
-using PRJ_NET.Models;
 using Microsoft.EntityFrameworkCore;
+using PRJ_NET.Data;
+using PRJ_NET.Models;
+using PRJ_NET.Models.Entities;
 
 namespace PRJ_NET.Controllers
 {
@@ -40,7 +39,7 @@ namespace PRJ_NET.Controllers
             await dbContext.Tickets.AddAsync(ticket);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("List");
+            return View();
         }
 
         [HttpGet]

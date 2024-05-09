@@ -6,6 +6,7 @@
 @model PRJ_NET.Models.AddTicketViewModel
 
 
+
 <div class="container py-5">
 
     <div class="row">
@@ -20,8 +21,8 @@
                             <a href="List" class="btn border-orange px-4 rounded-4 orange-color">View Trasnports</a>
                         </div>
                     </div>
-                   
-                    <form id="reservationForm" method="post">
+
+                    <form id="reservationForm" method="post" action=@Url.Action("Admin", "Admin")>
                         <div class="form-group position-relative mt-4">
                             <label for="carName" style="position: absolute; top: -10px; left: 10px; background-color: white; padding: 0 5px;">Bus Name</label>
                             <input type="text" class="form-control" id="carName" asp-for="TransportName" required>
@@ -71,3 +72,4 @@
             </div>
         </div>
     </div>
+</div>

@@ -79,7 +79,7 @@ existingDivs.forEach(existingDiv => {
 });
 
 function toggleCard(cardId) {
-    var card = document.getElementById('bus-place-card-' + cardId);
+    var card = document.getElementById('bus-place-card-' + cardId);+
     if (card.style.display === 'none') {
         card.style.display = 'block';
     } else {

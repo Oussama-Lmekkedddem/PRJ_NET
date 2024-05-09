@@ -1,10 +1,10 @@
-﻿@{
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
 
 @model List<PRJ_NET.Models.Entities.Ticket>
-
-
-
 
 <div class="container py-5">
 
@@ -58,9 +58,9 @@
                                             <td>@ticket.TicketPrice</td>
                                             <td>
                                                 <div class="row">
-                                                   <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@ticket.TicketId" class="btn btn-orange rounded-2 p-1" style="width: 35px; height: 35px;">
-                                                       <img src="../images/refresh.png" style="width: 22px; display: block; margin: auto;">
-                                                   </a>
+                                                    <a asp-controller="Tickets" asp-action="Edit" asp-route-id="@ticket.TicketId" class="btn btn-orange rounded-2 p-1" style="width: 35px; height: 35px;">
+                                                        <img src="../images/refresh.png" style="width: 22px; display: block; margin: auto;">
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
