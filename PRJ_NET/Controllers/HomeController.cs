@@ -59,6 +59,7 @@ namespace PRJ_NET.Controllers
             return View();
         }
 
+        
 
 
         public IActionResult Privacy()

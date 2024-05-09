@@ -1,7 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "transinfo";
 }
 
 
@@ -24,34 +22,34 @@
             <a href="/" class="BACK">
                 <img src="../images/arrow-left.png">
             </a>
-            <h1>Personal Info</h1>
+            <h1>Transport Info</h1>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>Bus Name:</strong></h2></div>
-                <div class="col-sm-7">Bus XYZ</div>
+                <div class="col-sm-7">@ViewBag.Car</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>City Departure:</strong></h2></div>
-                <div class="col-sm-7">City A</div>
+                <div class="col-sm-7">@ViewBag.City1</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>Time Departure:</strong></h2></div>
-                <div class="col-sm-7">10:00 AM</div>
+                <div class="col-sm-7">@ViewBag.Time1</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>City Arrival:</strong></h2></div>
-                <div class="col-sm-7">City B</div>
+                <div class="col-sm-7">@ViewBag.City2</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>Time Arrival:</strong></h2></div>
-                <div class="col-sm-7">2:00 PM</div>
+                <div class="col-sm-7">@ViewBag.Time2</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>Price:</strong></h2></div>
-                <div class="col-sm-7">$50</div>
+                <div class="col-sm-7">@ViewBag.Price</div>
             </div>
             <div class="row">
                 <div class="col-sm-5 mt-2"><h2 class="h2plus"><strong>Seat Number:</strong></h2></div>
-                <div class="col-sm-7">23</div>
+                <div class="col-sm-7">@ViewBag.Quantity</div>
             </div>
             <a href="persinfo" class="CTA">
                 <img class="ml-1 mt-2" src="../images/empty-arrow-down.png">
