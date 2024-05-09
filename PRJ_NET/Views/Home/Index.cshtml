@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<PRJ_NET.Models.Entities.Ticket>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -22,7 +23,8 @@
             <div class="card position-relative reservation-card"
                  style="background-color: white; height: 75px; box-shadow: 3px 3px 10px rgba(105, 105, 105, 0.5); padding-top:20px; padding-left: 20px;
              ">
-                <form action="#" method="POST">
+                <!-- Formulaire de recherche de billets -->
+                <form method="post" action="@Url.Action("Index", "Home")">
                     <div class="row">
                         <div class="col-4">
                             <div class="row">
@@ -32,8 +34,15 @@
                                 <div class="col">
                                     <div class="form-group position-relative">
                                         <label style="position: absolute; top: -10px; left: 10px; background-color: white; padding: 0 5px;">Departure City</label>
-                                        <input type="text" class="form-control city-input" name="departureCity" placeholder="Select a city..." required>
-                                        <div class="dropdown-menu city-suggestions w-100"></div>
+                                        <select class="form-control city-input" name="departureCity" id="departureCity" required>
+                                            @if (ViewBag.DepartureCities != null)
+                                            {
+                                                foreach (var city in ViewBag.DepartureCities)
+                                                {
+                                                    <option value="@city">@city</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +55,15 @@
                                 <div class="col">
                                     <div class="form-group position-relative">
                                         <label style="position: absolute; top: -10px; left: 10px; background-color: white; padding: 0 5px;">Arrival City</label>
-                                        <input type="text" class="form-control city-input" name="arrivalCity" placeholder="Select a city..." required>
-                                        <div class="dropdown-menu city-suggestions w-100"></div>
+                                        <select class="form-control city-input" name="arrivalCity" id="arrivalCity" required>
+                                            @if (ViewBag.ArrivalCities != null)
+                                            {
+                                                foreach (var city in ViewBag.ArrivalCities)
+                                                {
+                                                    <option value="@city">@city</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -76,188 +92,112 @@
         </div>
     </div>
 </div>
+
 <div class="container mb-4 mt-4">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var ticket in Model)
+        {
+            <div class="Single-card mb-3" id="single-card-@(ticket.TicketId)">
+                <div class="card position-relative">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div class="col-10">
+                            <div class="row">
+                                <span class="col-2 mt-3"><strong>@ticket.TransportName</strong></span>
+                                <span class="col-1">
+                                    <div class="row">
+                                        <strong>@ticket.DepartureCity</strong>
+                                    </div>
+                                    <div class="row">
+                                        @ticket.DepartureTime
+                                    </div>
+                                </span>
+                                <span class="col-3">
+                                    <img class="mt-3" src="./images/down-arrow.png" style="width: 80%;">
+                                </span>
+                                <span class="col-2">
+                                    <div class="row">
+                                        <strong>@ticket.ArrivalCity</strong>
+                                    </div>
+                                    <div class="row">
+                                        @ticket.ArrivalTime
+                                    </div>
+                                </span>
+                                <span class="col-2 mt-3"><strong>@ticket.TicketPrice DH</strong></span>
+                                <span class="col mt-3"><strong>14</strong></span>
+                            </div>
 
-    <div class="Single-card mb-3" id="single-card-1">
-        <div class="card position-relative">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div class="col-10">
-                    <div class="row">
-                        <span class="col-2 mt-3"><strong>Car</strong></span>
-                        <span class="col-1">
-                            <div class="row">
-                                <strong>City</strong>
-                            </div>
-                            <div class="row">
-                                Time
-                            </div>
-                        </span>
-                        <span class="col-3">
-                            <img class="mt-3" src="./images/down-arrow.png" style="width: 80%;">
-                        </span>
-                        <span class="col-2">
-                            <div class="row">
-                                <strong>City</strong>
-                            </div>
-                            <div class="row">
-                                Time
-                            </div>
-                        </span>
-                        <span class="col-2 mt-3"><strong>100DH</strong></span>
-                        <span class="col mt-3"><strong>14</strong></span>
+                        </div>
+                        <form action="Payment/transinfo" method="get">
+                            <!-- Hidden input fields to store variables -->
+                            <input type="hidden" name="car" value="CarName">
+                            <input type="hidden" name="city1" value="City1Name">
+                            <input type="hidden" name="time1" value="Time1">
+                            <input type="hidden" name="city2" value="City2Name">
+                            <input type="hidden" name="time2" value="Time2">
+                            <input type="hidden" name="price" value="100DH">
+                            <input type="hidden" name="quantity" value="14">
+                            <!-- Submit button -->
+                            <button type="submit" class="btn icon-container text-white px-4 rounded-4">Get ticket</button>
+                        </form>
+
+                        <div class="position-absolute-arrow" onclick="toggleCard(@ticket.TicketId)">
+                            <img src="./images/arrow-down.png" style="width: 15px; margin-left: 11px; margin-bottom: 5px">
+                        </div>
                     </div>
-
                 </div>
-                <form action="Payment/transinfo" method="get">
-                    <!-- Hidden input fields to store variables -->
-                    <input type="hidden" name="car" value="CarName">
-                    <input type="hidden" name="city1" value="City1Name">
-                    <input type="hidden" name="time1" value="Time1">
-                    <input type="hidden" name="city2" value="City2Name">
-                    <input type="hidden" name="time2" value="Time2">
-                    <input type="hidden" name="price" value="100DH">
-                    <input type="hidden" name="quantity" value="14">
-                    <!-- Submit button -->
-                    <button type="submit" class="btn icon-container text-white px-4 rounded-4">Get ticket</button>
-                </form>
+                <div class="card mt-1" id="bus-place-card-@ticket.TicketId" style="margin-top: -14px; display: none;">
+                    <div class="card-body p-2">
+                        <div id="content" style="margin-left: 90px;">
+                            <div class="border rounded shadow" style="height: 180px; width: 900px;">
+                                <div class="row ml-2" style="height: 100%; width: 98%;">
+                                    <div style="width: 160px; margin-left: 20px;">
+                                        <div class="row mt-2 ml-1">
+                                            <span>
+                                                <img src="./images/black-seat.png" style="width: 30px;">
+                                                Not available
+                                            </span>
+                                        </div>
+                                        <div class="row mt-1 ml-1">
+                                            <span>
+                                                <img src="./images/red-seat.png" style="width: 30px;">
+                                                &nbsp;Your seat
+                                            </span>
+                                        </div>
+                                        <div class="row mt-2 ml-1">
+                                            <span class="q-mx-md">
+                                                <img src="./images/green-seat.png" style="width: 30px;">
+                                                Available
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 70px;">
+                                        <img src="./images/car-steering-wheel.png" class="img-fluid mt-2" style="width: 50px;">
+                                    </div>
 
-                <div class="position-absolute-arrow" onclick="toggleCard(1)">
-                    <img src="./images/arrow-down.png" style="width: 15px; margin-left: 11px; margin-bottom: 5px">
-                </div>
-            </div>
-        </div>
-        <div class="card mt-1" id="bus-place-card-1" style="margin-top: -14px; display: none;">
-            <div class="card-body p-2">
-                <div id="content" style="margin-left: 90px;">
-                    <div class="border rounded shadow" style="height: 180px; width: 900px;">
-                        <div class="row ml-2" style="height: 100%; width: 98%;">
-                            <div style="width: 160px; margin-left: 20px;">
-                                <div class="row mt-2 ml-1">
-                                    <span>
-                                        <img src="./images/black-seat.png" style="width: 30px;">
-                                        Not available
-                                    </span>
+                                    <div style="width: 590px; margin-top: 4px;">
+                                        <div class="row RowImg" style="height: 35px;"></div>
+                                        <div class="row RowImg" style="height: 35px;"></div>
+                                        <div class="row" style="height: 35px;"></div>
+                                        <div class="row RowImg" style="height: 35px;"></div>
+                                        <div class="row RowImg" style="height: 35px;"></div>
+                                    </div>
                                 </div>
-                                <div class="row mt-1 ml-1">
-                                    <span>
-                                        <img src="./images/red-seat.png" style="width: 30px;">
-                                        &nbsp;Your seat
-                                    </span>
-                                </div>
-                                <div class="row mt-2 ml-1">
-                                    <span class="q-mx-md">
-                                        <img src="./images/green-seat.png" style="width: 30px;">
-                                        Available
-                                    </span>
-                                </div>
-                            </div>
-                            <div style="width: 70px;">
-                                <img src="./images/car-steering-wheel.png" class="img-fluid mt-2" style="width: 50px;">
-                            </div>
-
-                            <div style="width: 590px; margin-top: 4px;">
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="Single-card mb-3" id="single-card-2">
-        <div class="card position-relative">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div class="col-10">
-                    <div class="row">
-                        <span class="col-2 mt-3"><strong>Car</strong></span>
-                        <span class="col-1">
-                            <div class="row">
-                                <strong>City</strong>
-                            </div>
-                            <div class="row">
-                                Time
-                            </div>
-                        </span>
-                        <span class="col-3">
-                            <img class="mt-3" src="./images/down-arrow.png" style="width: 80%;">
-                        </span>
-                        <span class="col-2">
-                            <div class="row">
-                                <strong>City</strong>
-                            </div>
-                            <div class="row">
-                                Time
-                            </div>
-                        </span>
-                        <span class="col-2 mt-3"><strong>100DH</strong></span>
-                        <span class="col mt-3"><strong>14</strong></span>
-                    </div>
-
-                </div>
-                <form action="Payment/transinfo" method="get">
-                    <input type="hidden" name="car" value="CarName">
-                    <input type="hidden" name="city1" value="City1Name">
-                    <input type="hidden" name="time1" value="Time1">
-                    <input type="hidden" name="city2" value="City2Name">
-                    <input type="hidden" name="time2" value="Time2">
-                    <input type="hidden" name="price" value="100DH">
-                    <input type="hidden" name="quantity" value="14">
-                    <!-- Submit button -->
-                    <button type="submit" class="btn icon-container text-white px-4 rounded-4">Get ticket</button>
-                </form>
-                <div class="position-absolute-arrow" onclick="toggleCard(2)">
-                    <img src="./images/arrow-down.png" style="width: 15px; margin-left: 11px; margin-bottom: 5px">
-                </div>
-            </div>
-        </div>
-        <div class="card mt-1" id="bus-place-card-2" style="margin-top: -14px; display: none;">
-            <div class="card-body p-2">
-                <div style="margin-left: 90px;">
-                    <div class="border rounded shadow" style="height: 180px; width: 900px;">
-                        <div class="row ml-2" style="height: 100%; width: 98%;">
-                            <div style="width: 160px; margin-left: 20px;">
-                                <div class="row mt-2 ml-1">
-                                    <span>
-                                        <img src="./images/black-seat.png" style="width: 30px;">
-                                        Not available
-                                    </span>
-                                </div>
-                                <div class="row mt-1 ml-1">
-                                    <span>
-                                        <img src="./images/red-seat.png" style="width: 30px;">
-                                        &nbsp;Your seat
-                                    </span>
-                                </div>
-                                <div class="row mt-2 ml-1">
-                                    <span class="q-mx-md">
-                                        <img src="./images/green-seat.png" style="width: 30px;">
-                                        Available
-                                    </span>
-                                </div>
-                            </div>
-                            <div style="width: 70px;">
-                                <img src="./images/car-steering-wheel.png" class="img-fluid mt-2" style="width: 50px;">
-                            </div>
-
-                            <div style="width: 590px; margin-top: 4px;">
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
-                                <div class="row RowImg" style="height: 35px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        
+        }
+    }
+    else
+    {
+        <p>Aucun résultat trouvé pour les critères de recherche spécifiés.</p>
+    }
 </div>
+
+
 
 <div class="pos mr-5 ml-5 mt-5">
     <div class="row">
