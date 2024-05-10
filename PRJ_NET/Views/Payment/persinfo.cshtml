@@ -24,29 +24,32 @@
         <a href="transinfo" class="BACK">
             <img src="../images/arrow-left.png">
         </a>
-        <h1>Privacy Settings</h1>
+        <h1>Client information</h1>
         <div class="form-card" style="margin-top: -20px;">
-            <form action="payinfo" method="get">
-                <div class="col-sm-10">
-                    <label class="pay-label">ID Card</label>
-                    <input type="text" name="idcard" required>
-                </div>
-                <div class="col-sm-10">
-                    <label class="pay-label">First Name</label>
-                    <input type="text" name="firstname" required>
-                </div>
-                <div class="col-sm-10">
-                    <label class="pay-label">Last Name</label>
-                    <input type="text" name="lastname" required>
-                </div>
-                <div class="col-sm-10">
-                    <label class="pay-label">Email</label>
-                    <input type="email" name="email" required>
-                </div>
-                <button type="submit" class="CTA">
-                    <img src="../images/empty-arrow-down.png">
-                </button>
-            </form>
+                <form method="post" action="@Url.Action("SaveClientInfo", "Payment")">
+                    <div class="col-sm-10">
+                        <label class="pay-label">ID Card</label>
+                        <input type="text" name="idcard" required>
+                    </div>
+                    <div class="col-sm-10">
+                        <label class="pay-label">First Name</label>
+                        <input type="text" name="firstname" required>
+                    </div>
+                    <div class="col-sm-10">
+                        <label class="pay-label">Last Name</label>
+                        <input type="text" name="lastname" required>
+                    </div>
+                    <div class="col-sm-10">
+                        <label class="pay-label">Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <input type="hidden" name="ticketId" value="@ViewBag.TicketId">
+                    <input type="hidden" name="seatNumber" value="@ViewBag.SeatNumber">
+                    <button type="submit" class="CTA">
+                        <img src="../images/empty-arrow-down.png">
+                    </button>
+                </form>
+
         </div>
     </div>
 </div>
