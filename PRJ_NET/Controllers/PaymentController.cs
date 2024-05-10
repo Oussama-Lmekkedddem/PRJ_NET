@@ -82,7 +82,7 @@ namespace PRJ_NET.Controllers
                 var ticket = _context.Tickets.FirstOrDefault(t => t.TicketId == ticketId);
                 if (ticket != null)
                 {
-                    ticket.AvailableSeats -= seatNumber; // Décrémentez le nombre de places disponibles
+                    ticket.AvailableSeats -= 1; // Décrémentez le nombre de places disponibles
                     _context.SaveChanges();
 
                     // Créez une nouvelle réservation avec les informations de ticket et de client
