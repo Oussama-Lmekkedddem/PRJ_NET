@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using PRJ_NET.Data;
 
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("PRJ_NET")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PRJ_NET")));
+
+// Ajouter la configuration de la session
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -25,6 +29,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

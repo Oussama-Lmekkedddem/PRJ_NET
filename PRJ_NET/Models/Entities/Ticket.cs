@@ -1,8 +1,11 @@
-﻿namespace PRJ_NET.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PRJ_NET.Models.Entities
 {
     public class Ticket
     {
-        public Guid TicketId { get; set; }
+        [Key]
+        public int TicketId { get; set; }
 
         public string TransportName { get; set; }
 

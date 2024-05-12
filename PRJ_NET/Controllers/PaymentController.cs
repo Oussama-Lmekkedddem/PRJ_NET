@@ -1,46 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging; // Importation de ILogger
 using PRJ_NET.Data;
 using PRJ_NET.Models.Entities;
-using System.Net.Sockets;
+using System.Linq;
 
 namespace PRJ_NET.Controllers
 {
     public class PaymentController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public PaymentController(ApplicationDbContext context)
+        private readonly ILogger<PaymentController> _logger; // Déclaration de ILogger
+
+        public PaymentController(ApplicationDbContext context, ILogger<PaymentController> logger)
         {
             _context = context;
+            _logger = logger; // Initialisation de ILogger
         }
+
         public ActionResult getpdf()
         {
-
             return View();
         }
 
         public ActionResult payinfo()
         {
-
             return View();
         }
 
         public ActionResult verification()
         {
-
             return View();
         }
+
         public ActionResult persinfo()
         {
-
             return View();
         }
 
-
         [HttpPost]
-        public IActionResult transinfo(string car, string city1, string time1, string city2, string time2, string price, int quantity, Guid ticketId)
+        public IActionResult transinfo(string car, string city1, string time1, string city2, string time2, string price, int quantity, int ticketId)
         {
-
             ViewBag.Car = car;
             ViewBag.City1 = city1;
             ViewBag.Time1 = time1;
@@ -49,13 +49,15 @@ namespace PRJ_NET.Controllers
             ViewBag.Price = price;
             ViewBag.Quantity = quantity;
             ViewBag.TicketId = ticketId;
+            HttpContext.Session.SetInt32("TicketId", ViewBag.TicketId);
+            HttpContext.Session.SetInt32("Quantity", ViewBag.Quantity);
 
             return View();
         }
+
         [HttpPost]
         public IActionResult SaveClientInfo(string idcard, string firstname, string lastname, string email)
         {
-            // Créez un nouvel objet Client avec les informations fournies
             var newClient = new Client
             {
                 ClientCNI = idcard,
@@ -64,50 +66,41 @@ namespace PRJ_NET.Controllers
                 ClientEmail = email
             };
 
-            // Ajoutez le nouveau client à la base de données
             _context.Clients.Add(newClient);
             _context.SaveChanges();
 
-            // Récupérez l'ID du client nouvellement ajouté
             var clientId = newClient.ClientId;
 
-            // Vérifiez si ViewBag.TicketId est null
-            if (ViewBag.TicketId != null)
+            if (HttpContext.Session.GetInt32("TicketId").HasValue && HttpContext.Session.GetInt32("Quantity").HasValue)
             {
-                // Récupérez l'ID du ticket depuis le ViewBag
-                Guid ticketId = (Guid)ViewBag.TicketId;
+                int ticketId = HttpContext.Session.GetInt32("TicketId").Value;
+                int quantity = HttpContext.Session.GetInt32("Quantity").Value;
 
-                // Décrémentez le nombre de places disponibles dans le billet
-                var seatNumber = ViewBag.Quantity; // Assurez-vous que ViewBag.Quantity contient le nombre de places réservées
+                // Enregistrement des valeurs dans les logs
+                _logger.LogInformation($"TicketId from session: {ticketId}");
+                _logger.LogInformation($"Quantity from session: {quantity}");
+                _logger.LogInformation($"id client: {clientId}");
+
                 var ticket = _context.Tickets.FirstOrDefault(t => t.TicketId == ticketId);
                 if (ticket != null)
                 {
-                    ticket.AvailableSeats -= 1; // Décrémentez le nombre de places disponibles
+                    ticket.AvailableSeats -= 1;
                     _context.SaveChanges();
 
-                    // Créez une nouvelle réservation avec les informations de ticket et de client
                     var newReservation = new Reservation
                     {
                         TicketId = ticketId,
                         ClientId = clientId,
-                        SeatNumber = seatNumber, // Utilisez le nombre de places réservées
-                        PaymentValidated = false // Vous pouvez définir cela en fonction de votre logique métier
+                        SeatNumber = quantity,
+                        PaymentValidated = false
                     };
 
-                    // Ajoutez la nouvelle réservation à la base de données
                     _context.Reservations.Add(newReservation);
                     _context.SaveChanges();
                 }
             }
 
-            // Redirigez l'utilisateur vers une autre page ou affichez un message de confirmation
             return RedirectToAction("payinfo");
         }
-
-
-
     }
 }
-
-
-
