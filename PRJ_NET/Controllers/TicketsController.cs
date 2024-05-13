@@ -50,7 +50,7 @@ namespace PRJ_NET.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(int id)
         {
             var ticket = await dbContext.Tickets.FindAsync(id);
 

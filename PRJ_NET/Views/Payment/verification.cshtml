@@ -1,45 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Verification Page";
 }
 
 
+
 <div class="container-pay mt-4">
-        <div id="logo"><h1 class="logo" style="width: 60px;"></h1>
-            <div class=""></div>
-        </div>
-        <div class="leftbox">
-            <nav>
-                <a class="test-white"><i class="fa fa-tasks"></i></a>
-                <a class="test-white"><i class="fa fa fa-user"></i></a>
-                <a class="test-white"><i class="fa fa-credit-card"></i></a>
-                <a class="active test-white"><i class="fa fa-check-circle"></i></a>
-                <a class="test-white"><i class="fa fa-download"></i></a>
-            </nav>
-        </div>
-        <div class="rightbox">
-            <div class="verfication">
-                <a href="payinfo" class="BACK">
-                    <img src="../images/arrow-left.png">
-                </a>
-                <h1>Your Subscription</h1>
-                <div class="mt-4 ml-4 mb-4"><h2 class="h2plus">A verification code has been sent to your email.</h2></div>
-                <div class="form-container ml-2">
+    <div id="logo">
+        <h1 class="logo" style="width: 60px;"></h1>
+        <div class=""></div>
+    </div>
+    <div class="leftbox">
+        <nav>
+            <a class="test-white"><i class="fa fa-tasks"></i></a>
+            <a class="test-white"><i class="fa fa fa-user"></i></a>
+            <a class="test-white"><i class="fa fa-credit-card"></i></a>
+            <a class="active test-white"><i class="fa fa-check-circle"></i></a>
+            <a class="test-white"><i class="fa fa-download"></i></a>
+        </nav>
+    </div>
+    <div class="rightbox">
+        <div class="verfication">
+            <a href="payinfo" class="BACK">
+                <img src="../images/arrow-left.png">
+            </a>
+            <h1>Your Subscription</h1>
+            <div class="mt-4 ml-4 mb-4"><h2 class="h2plus">A verification code has been sent to your email.</h2></div>
+            <div class="form-container ml-2">
+                <form action="@Url.Action("VerificationPayInfo", "Payment")" method="post">
+                    @if (TempData["VerificationCode"] != null)
+                    {
+                        <input type="hidden" name="verificationCode" id="verificationCode" value="@TempData["VerificationCode"]">
+                    }
                     <div class="form-group col-6">
                         <label class="h2plus">Verification code</label>
-                        <input type="text" class="form-control" name="verification_code" placeholder="000000" minlength="6" maxlength="6" required>
+                        <input type="text" class="form-control" name="userCode" id="userCode" placeholder="000000" minlength="6" maxlength="6" required>
                     </div>
-                    <button id="verfication-button" class="CTA">
+                    <button type="submit" class="CTA">
                         <img src="../images/empty-arrow-down.png">
                     </button>
+                </form>
 
-                    <div class="row text-centre virification-error noshow">
-                        <div class="col-6">
-                            <h2 class="h2plus">Erreur</h2>
-                        </div>
+                <div class="row text-centre virification-error noshow">
+                    <div class="col-6">
+                        <h2 class="h2plus">Erreur</h2>
                     </div>
                 </div>
+
+
+                @if (TempData["VerificationCode"] == null)
+                {
+                    <h2 class="h2plus">No verification code found.</h2>
+                }
+
+                @if (TempData["VerificationError"] != null)
+                {
+                    <h2 class="h2plus">@TempData["VerificationError"]</h2>
+                }
             </div>
         </div>
     </div>
+</div>
+

@@ -1,10 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-
+﻿
 <div class="container-pay mt-4">
     <div id="logo">
         <h1 class="logo" style="width: 60px;"></h1>
@@ -26,7 +20,7 @@
             </a>
             <h1>Payment Info</h1>
             <div class="form-card mr-5">
-                <form action="verification" method="post">
+                <form action="@Url.Action("SavePayInfo", "Payment")" method="post">
                     <div class="row pl-3 pr-4 mb-4">
                         <div class="col-sm-5">
                             <div class="border border-primary" data-value="credit"><img src="https://i.imgur.com/28akQFX.jpg" width="160px" height="45px"></div>
@@ -56,6 +50,7 @@
                             <label class="pay-label">Expiration Date</label>
                             <input type="text" name="exp" id="exp" placeholder="MM/YY" minlength="5" maxlength="5" class="form-control ml-2" required>
                         </div>
+                        <input type="hidden" name="email" id="email" value="lmekkeddemoussama@gmail.com">
                     </div>
                     <button type="submit" class="CTA">
                         <img src="../images/empty-arrow-down.png">
@@ -65,3 +60,4 @@
         </div>
     </div>
 </div>
+

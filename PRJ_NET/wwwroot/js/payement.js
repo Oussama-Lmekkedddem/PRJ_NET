@@ -2,9 +2,9 @@
 
 
 
-$(document).ready(function(){
+$(document).ready(function () {
 
-//For Card Number formatted input
+    //For Card Number formatted input
     var cardNum = document.getElementById('cr_no');
     cardNum.onkeyup = function (e) {
         if (this.value == this.lastValue) return;
@@ -28,7 +28,7 @@ $(document).ready(function(){
         this.selectionStart = this.selectionEnd = caretPosition;
     }
 
-//For Date formatted input
+    //For Date formatted input
     var expDate = document.getElementById('exp');
     expDate.onkeyup = function (e) {
         if (this.value == this.lastValue) return;
@@ -52,8 +52,8 @@ $(document).ready(function(){
         this.selectionStart = this.selectionEnd = caretPosition;
     }
 
-// Radio button
-    $('.radio-group .radio').click(function(){
+    // Radio button
+    $('.radio-group .radio').click(function () {
         $(this).parent().find('.radio').removeClass('selected');
         $(this).addClass('selected');
     });
@@ -63,39 +63,73 @@ $(document).ready(function(){
 
 
 
-function generatePdf() {
-    // Créer une nouvelle instance de jsPDF
-    const doc = new jsPDF();
 
-    // Ajouter du texte au PDF
-    doc.text('This is your ticket PDF!', 10, 10);
+document.getElementById('generatePdfButton').addEventListener('click', function () {
+    // Récupérer les informations de transport et personnelles
+    const transportInfo = {
+        villeDepart: document.getElementById('ReserveticketInfo').querySelector('#villeDepart').textContent,
+        villeArrivee: document.getElementById('ReserveticketInfo').querySelector('#villeArrivee').textContent,
+        heureDepart: document.getElementById('ReserveticketInfo').querySelector('#heureDepart').textContent,
+        heureArrivee: document.getElementById('ReserveticketInfo').querySelector('#heureArrivee').textContent,
+        numeroPlace: document.getElementById('ReserveticketInfo').querySelector('#numeroPlace').textContent,
+        nomTransporteur: document.getElementById('ReserveticketInfo').querySelector('#nomTransporteur').textContent
+    };
 
-    // Télécharger le PDF avec un nom de fichier spécifié
-    doc.save('ticket.pdf');
-}
+    const userInfo = {
+        nomUtilisateur: document.getElementById('ReserveticketInfo').querySelector('#nomUtilisateur').textContent,
+        CNI: document.getElementById('ReserveticketInfo').querySelector('#CNI').textContent
+    };
 
-// Ajouter un événement de clic au bouton pour générer le PDF
-document.getElementById('generatePdfBtn').addEventListener('click', generatePdf);
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("verfication-button").addEventListener("click", function () {
-        var inputCode = document.querySelector('input[name="verification_code"]').value;
-        if (inputCode === "123456") {
-            window.location.href = "getpdf.html";
-        } else {
-            var errorDiv = document.querySelector('.virification-error');
-            errorDiv.classList.remove('noshow');
+    // Définir le contenu du PDF
+    const pdfContent = {
+        content: [
+            { text: 'Ticket de Transport', style: 'header' },
+            { text: transportInfo.nomTransporteur, style: 'transporterName' },
+            {
+                columns: [
+                    {
+                        width: '50%',
+                        text: [
+                            { text: 'Informations de Transport\n', style: 'infoSubtitle' },
+                            `Ville de Départ: ${transportInfo.villeDepart}\n`,
+                            `Ville d'Arrivée: ${transportInfo.villeArrivee}\n`,
+                            `Heure de Départ: ${transportInfo.heureDepart}\n`,
+                            `Heure d'Arrivée: ${transportInfo.heureArrivee}\n`,
+                            `Numéro de Place: ${transportInfo.numeroPlace}\n`
+                        ]
+                    },
+                    {
+                        width: '50%',
+                        text: [
+                            { text: 'Informations Personnelles\n', style: 'infoSubtitle' },
+                            `Nom d'utilisateur: ${userInfo.nomUtilisateur}\n`,
+                            `CNI: ${userInfo.CNI}\n`
+                        ]
+                    }
+                ]
+            }
+        ],
+        styles: {
+            header: {
+                fontSize: 24,
+                bold: true,
+                alignment: 'center',
+                margin: [0, 0, 0, 20]
+            },
+            transporterName: {
+                fontSize: 18,
+                bold: true,
+                alignment: 'center',
+                margin: [0, 0, 10, 0],
+                fillColor: '#e3e3e3'
+            },
+            infoSubtitle: {
+                fontSize: 14,
+                bold: true,
+                margin: [0, 10, 0, 5],
+                fillColor: '#f5f5f5'
+            }
         }
-    });
+    };
+    pdfMake.createPdf(pdfContent).download('ticket.pdf');
 });
-
-
-
-
-
-
-

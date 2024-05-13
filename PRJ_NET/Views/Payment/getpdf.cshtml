@@ -1,11 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-
-<div class="container-pay mt-4">
+﻿<div class="container-pay mt-4">
     <div id="logo">
         <h1 class="logo" style="width: 60px;"></h1>
         <div class=""></div>
@@ -24,17 +17,25 @@
             <a href="/" class="BACK">
                 <img src="../images/arrow-left.png">
             </a>
-            <h1>Account Settings</h1>
+            <h1>Downoald Ticket</h1>
             <div class="mt-4 ml-4 mb-4">
                 <h2 class="h2plus">Thank you for choosing us.</h2>
             </div>
+            <div id="ReserveticketInfo" style="display: none;">
+                <span id="nomTransporteur">@ViewBag.Car</span>
+                <span id="nomUtilisateur">@ViewBag.Firstname @ViewBag.Lastname</span>
+                <span id="CNI">@ViewBag.Idcard</span>
+                <span id="villeDepart">@ViewBag.City1</span>
+                <span id="villeArrivee">@ViewBag.City2</span>
+                <span id="heureDepart">@ViewBag.Time1</span>
+                <span id="heureArrivee">@ViewBag.Time2</span>
+                <span id="numeroPlace">@ViewBag.Quantity</span>
+            </div>
             <div class="row mr-5">
                 <div class="col-12 d-flex justify-content-center align-items-center">
-                    <button id="generatePdfBtn" class="btn btn-orange text-white" style="height: 50px; width: 160px;">Download Ticket</button>
+                    <button id="generatePdfButton" class="btn btn-orange text-white" style="height: 50px; width: 160px;">Download Ticket</button>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>

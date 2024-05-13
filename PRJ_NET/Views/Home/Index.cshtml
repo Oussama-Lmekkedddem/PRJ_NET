@@ -95,9 +95,11 @@
 <div class="container mb-4 mt-4">
     @if (Model != null && Model.Any())
     {
+        var @counter = 0;
         foreach (var ticket in Model)
         {
-            <div class="Single-card mb-3" id="single-card-@(ticket.TicketId)">
+            counter++;
+            <div class="Single-card mb-3" id="single-card-@counter">
                 <div class="card position-relative">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div class="col-10">
@@ -123,7 +125,7 @@
                                     </div>
                                 </span>
                                 <span class="col-2 mt-3"><strong>@ticket.TicketPrice DH</strong></span>
-                                <span class="col mt-3"><strong>14</strong></span>
+                                <span id="my-seat-@counter" class="col mt-3"><strong>00</strong></span>
                             </div>
 
                         </div>
@@ -135,18 +137,18 @@
                             <input type="hidden" name="city2" value="@ticket.ArrivalCity">
                             <input type="hidden" name="time2" value="@ticket.ArrivalTime">
                             <input type="hidden" name="price" value="@ticket.TicketPrice">
-                            <input type="hidden" name="quantity" value="14">
                             <input type="hidden" name="ticketId" value="@ticket.TicketId">
+                            <input id="my-seat-value-@counter" type="hidden" name="quantity" value="00">
                             <!-- Submit button -->
                             <button type="submit" class="btn icon-container text-white px-4 rounded-4">Get ticket</button>
                         </form>
 
-                        <div class="position-absolute-arrow" onclick="toggleCard(@ticket.TicketId)">
+                        <div class="position-absolute-arrow" onclick="toggleCard(@counter)">
                             <img src="./images/arrow-down.png" style="width: 15px; margin-left: 11px; margin-bottom: 5px">
                         </div>
                     </div>
                 </div>
-                <div class="card mt-1" id="bus-place-card-@ticket.TicketId" style="margin-top: -14px; display: none;">
+                <div class="card mt-1" id="bus-place-card-@counter" style="margin-top: -14px; display: none;">
                     <div class="card-body p-2">
                         <div id="content" style="margin-left: 90px;">
                             <div class="border rounded shadow" style="height: 180px; width: 900px;">
@@ -174,7 +176,9 @@
                                     <div style="width: 70px;">
                                         <img src="./images/car-steering-wheel.png" class="img-fluid mt-2" style="width: 50px;">
                                     </div>
-
+                                    <div id="hidden-list-@counter" style="display: none;">
+                                        7,18,19,20,1,2,3,4,5,6
+                                    </div>
                                     <div style="width: 590px; margin-top: 4px;">
                                         <div class="row RowImg" style="height: 35px;"></div>
                                         <div class="row RowImg" style="height: 35px;"></div>
@@ -193,7 +197,12 @@
     }
     else
     {
-        <p>Aucun résultat trouvé pour les critères de recherche spécifiés.</p>
+        <div class="card position-relative">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <p>Aucun résultat trouvé pour les critères de recherche spécifiés.</p>
+            </div>
+        </div>
+
     }
 </div>
 <div class="pos mr-5 ml-5 mt-5">

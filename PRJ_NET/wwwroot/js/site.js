@@ -36,83 +36,202 @@ document.querySelectorAll('.city-input').forEach(cityInput => {
 });
 
 
-const signInLink = document.getElementById('sign-in');
-const adminForm = document.getElementById('admin-form');
 
-signInLink.addEventListener('click', function (event) {
-    event.preventDefault(); // Empêche le comportement par défaut du lien
-
-    adminForm.classList.toggle('d-none'); // Affiche ou cache la div du formulaire
-});
-
-
-
-
-// Obtenez toutes les divs existantes avec la classe spécifiée
-const existingDivs = document.querySelectorAll('.RowImg');
 
 const greenSeat = "./images/green-seat.png";
 const redSeat = "./images/red-seat.png";
 const blackSeat = "./images/black-seat.png";
 
-// Boucle à travers chaque div existante
-existingDivs.forEach(existingDiv => {
-    // Boucle pour ajouter 10 divs à chaque div existante
-    for (let i = 1; i <= 10; i++) {
-        // Créez une nouvelle div avec la classe Bootstrap pour une colonne et un style spécifié
-        const newDiv = document.createElement('div');
-        newDiv.classList.add('col');
-        newDiv.style.height = '35px';
-
-        // Créez une nouvelle image avec une source variable et des classes Bootstrap pour le contenu fluide
-        const newImage = document.createElement('img');
-        newImage.src = blackSeat;
-        newImage.classList.add('img-fluid');
-        newImage.style.width = '30px';
-
-        // Ajoutez l'image à la nouvelle div
-        newDiv.appendChild(newImage);
-
-        // Ajoutez la nouvelle div à la div existante
-        existingDiv.appendChild(newDiv);
-    }
-});
-
 function toggleCard(cardId) {
-    var card = document.getElementById('bus-place-card-' + cardId);+
+    var card = document.getElementById('bus-place-card-' + cardId);
+    const existingDivs = card.querySelectorAll('.RowImg');
     if (card.style.display === 'none') {
         card.style.display = 'block';
+
+        var counter = 0;
+
+        var hiddenList = document.getElementById('hidden-list-' + cardId);
+        var numbersList = hiddenList.textContent.trim().split(',').map(num => parseInt(num));
+        numbersList.sort((a, b) => a - b);
+
+        existingDivs.forEach(existingDiv => {
+            // Vérifier si des éléments existent déjà dans existingDiv
+            if (existingDiv.querySelectorAll('.col').length === 0) {
+                for (let i = 1; i <= 10; i++) {
+                    const newDiv = document.createElement('div');
+                    newDiv.id = cardId + "-" + (counter + i);
+                    newDiv.classList.add('col');
+                    newDiv.style.height = '35px';
+
+                    const newImage = document.createElement('img');
+                    newImage.classList.add('img-fluid');
+                    newImage.style.width = '30px';
+
+                    if (numbersList.includes(counter + i)) {
+                        newDiv.classList.add('reserveseat');
+                    } else {
+                        newImage.src = greenSeat;
+                        newDiv.classList.add('freeplace');
+
+                        newDiv.onclick = function (event) {
+                            const idParts = newDiv.id.split('-');
+                            const counterAndI = idParts[idParts.length - 1];
+
+
+                            const redplace = card.querySelector('.yourseat');
+                            if (redplace) {
+                                redplace.classList.replace('yourseat', 'freeplace');
+                            }
+
+                            newDiv.classList.replace('freeplace', 'yourseat')
+                            const mySeatValueInput = document.getElementById('my-seat-value-' + cardId);
+                            if (mySeatValueInput) {
+                                mySeatValueInput.value = counterAndI;
+                            }
+                            const mySeatSpan = document.getElementById('my-seat-' + cardId);
+                            if (mySeatSpan) {
+                                mySeatSpan.textContent = counterAndI;
+                            }
+
+                            changeImagesByClass('bus-place-card-' + cardId);
+
+
+                        };
+
+                    }
+                    newDiv.appendChild(newImage);
+
+                    existingDiv.appendChild(newDiv);
+                }
+            }
+            counter += 10;
+        });
+
+        let randomSeat;
+        do {
+            randomSeat = Math.floor(Math.random() * 40) + 1;
+        } while (numbersList.includes(randomSeat));
+
+        const randomSeatId = cardId + "-" + randomSeat;
+        const randomSeatDiv = document.getElementById(randomSeatId);
+        if (randomSeatDiv) {
+            const randomSeatImage = randomSeatDiv.querySelector('img');
+            randomSeatDiv.classList.replace('freeplace', 'yourseat');
+            const mySeatValueInput = document.getElementById('my-seat-value-' + cardId);
+            if (mySeatValueInput) {
+                mySeatValueInput.value = randomSeat;
+            }
+
+            const mySeatSpan = document.getElementById('my-seat-' + cardId);
+            if (mySeatSpan) {
+                mySeatSpan.textContent = randomSeat;
+            }
+        }
+        changeImagesByClass('bus-place-card-' + cardId);
     } else {
         card.style.display = 'none';
+        existingDivs.forEach(existingDiv => {
+            existingDiv.innerHTML = '';
+        });
     }
+}
+
+
+function changeImagesByClass(parentId) {
+    const parentDiv = document.getElementById(parentId);
+    if (!parentDiv) {
+        console.error("Parent div not found.");
+        return;
+    }
+
+    const divsWithClasses = parentDiv.querySelectorAll('.yourseat, .freeplace, .reserveseat');
+    divsWithClasses.forEach(div => {
+        const img = div.querySelector('img');
+        if (!img) {
+            console.error("Image not found in div:", div.id);
+            return;
+        }
+
+        if (div.classList.contains('yourseat')) {
+            img.src = redSeat;
+        } else if (div.classList.contains('freeplace')) {
+            img.src = greenSeat;
+        } else if (div.classList.contains('reserveseat')) {
+            img.src = blackSeat;
+        }
+    });
 }
 
 
 
 
+const signInLink = document.getElementById('sign-in');
+const adminForm = document.getElementById('admin-form');
+const adminFormout = document.getElementById('admin-singout');
 
+adminFormout.classList.add('d-none'); // Hide the sign out button initially
 
+signInLink.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    if (window.location.pathname.startsWith('/Tickets')) {
+        adminFormout.classList.toggle('d-none');
+    } else {
+        adminForm.classList.toggle('d-none');
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('admin-form');
+    const form_out = document.getElementById('admin-singout');
+
+    form_out.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        window.location.href = 'https://localhost:7039';
+    });
 
     form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Empêcher l'envoi par défaut du formulaire
+        event.preventDefault(); // Prevent the default form submission
 
-        // Récupérer les valeurs des champs email et password
+        // Get the values of the email and password fields
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Vérifier si les identifiants sont corrects
+        // Check if the credentials are correct
         if (email === 'admin@gmail.com' && password === 'admin') {
-            // Rediriger vers la page admin.html
-            window.location.href = 'Tickets/Admin';
+            window.location.href = 'https://localhost:7039/Tickets/Admin';
         } else {
-            // Afficher un message d'erreur ou effectuer d'autres actions si les identifiants ne sont pas corrects
-            alert('Identifiants incorrects. Veuillez réessayer.');
+            // Display an error message or perform other actions if the credentials are incorrect
+            alert('Incorrect credentials. Please try again.');
         }
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
